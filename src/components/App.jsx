@@ -43,63 +43,15 @@ export const App = () => {
       getPhotosToImages();
   }, [query, page])
 
-  // componentDidUpdate = async (_, prevState) => {
-  //   const {query, page, images} = this.state;
-  //   if (prevState.query === query && prevState.page === page) {
-  //     return;
-  //   }
-
-  //   if (page === 1) {
-  //     this.setState({ images: [] });
-  //   }
-    
-  //   this.setState({isLoading: true, canToLoadMore: false})
-
-  //   try {
-  //   const data = await getPhotos(query, page);
-
-  //   data.totalHits - images.length <= 12 ? this.setState({canToLoadMore: false}) : this.setState({canToLoadMore: true});
-
-  //   page === 1 ? this.setState({
-  //       images: data.hits.map(hit => ({
-  //         id: hit.id,
-  //         webformatURL: hit.webformatURL, 
-  //         largeImageURL: hit.largeImageURL, 
-  //         tags: hit.tags
-  //       }))
-  //     }) :
-  //     this.setState({
-  //       images: [...images, ...data.hits.map(hit => ({
-  //         id: hit.id,
-  //         webformatURL: hit.webformatURL, 
-  //         largeImageURL: hit.largeImageURL, 
-  //         tags: hit.tags
-  //       }))]
-  //     })
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     this.setState({isLoading: false})
-  //   }
-  // }
-
   const handleFindImg = async (searchingQuery) => {  
     setQuery(searchingQuery);
     setPage(1);
   }
 
-  // handleLoadMoreImg = async () => {   
-  //   this.setState({page: this.state.page + 1})
-  // }
-
   const handleChoseImg = (img) =>{
     setChosenImg(img);
     setModalIsOpen(true);
   }
-
-  // handleCloseModal = () => {
-  //   this.setState({modalIsOpen: false})
-  // }
   
     return (
       <div className="App">
