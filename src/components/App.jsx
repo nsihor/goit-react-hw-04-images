@@ -13,9 +13,8 @@ export const App = () => {
   const [images, setImages] = useState([]);
   const [chosenImg, setChosenImg] = useState('');
   const [isLoading, setIsloading] = useState(false);
-  const [canToLoadMore, setLoadMore] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isFirstRequest, setIsFirstRequest] = useState(true);
+  const [currentTotalHits, setCurrentTotalHits] = useState(null);
   
   useEffect( () => {
     const getPhotosToImages = () => {
@@ -29,18 +28,13 @@ export const App = () => {
                     largeImageURL: hit.largeImageURL, 
                     tags: hit.tags
                   }))])
-                  responseImages.totalHits - images.length <= 12 ? setLoadMore(false) : setLoadMore(true);
+                  setCurrentTotalHits(responseImages.totalHits);
         })
         .catch(error => console.log(error))
         .finally(setIsloading(false));
     }
 
-    if (isFirstRequest) {
-      setIsFirstRequest(false);
-      return;
-    } 
-
-      getPhotosToImages();
+    if(query !== '')getPhotosToImages();
   }, [query, page])
 
   const handleFindImg = async (searchingQuery) => {  
@@ -57,7 +51,7 @@ export const App = () => {
       <div className="App">
         <Searchbar handleSubmit={handleFindImg}/>
         <ImageGallery images={images} handleChoseImg={handleChoseImg}/>
-        {canToLoadMore   && <Button handleClick={() => setPage(p => p + 1)} text='Load more'/>}
+        {currentTotalHits - images.length > 0 && <Button handleClick={() => setPage(p => p + 1)} text='Load more'/>}
         {isLoading && <Loader />}
         {modalIsOpen && <Modal img={chosenImg} handleCloseModal={() => setModalIsOpen(false)} />}
       </div>
