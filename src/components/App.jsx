@@ -29,12 +29,11 @@ export const App = () => {
                     tags: hit.tags
                   }))]);
                   setCurrentTotalHits(responseImages.totalHits);
-                  setIsloading(false)
         })
         .catch(error => {
-          setIsloading(false)
           console.log(error);
         })
+        .finally(() => setIsloading(false))
     }
 
     if(query !== '')getPhotosToImages();
