@@ -27,11 +27,14 @@ export const App = () => {
                     webformatURL: hit.webformatURL, 
                     largeImageURL: hit.largeImageURL, 
                     tags: hit.tags
-                  }))])
+                  }))]);
                   setCurrentTotalHits(responseImages.totalHits);
+                  setIsloading(false)
         })
-        .catch(error => console.log(error))
-        .finally(setIsloading(false));
+        .catch(error => {
+          setIsloading(false)
+          console.log(error);
+        })
     }
 
     if(query !== '')getPhotosToImages();
@@ -51,7 +54,7 @@ export const App = () => {
       <div className="App">
         <Searchbar handleSubmit={handleFindImg}/>
         <ImageGallery images={images} handleChoseImg={handleChoseImg}/>
-        {currentTotalHits - images.length > 0 && <Button handleClick={() => setPage(p => p + 1)} text='Load more'/>}
+        {!isLoading && currentTotalHits - images.length > 0 && <Button handleClick={() => setPage(p => p + 1)} text='Load more'/>}
         {isLoading && <Loader />}
         {modalIsOpen && <Modal img={chosenImg} handleCloseModal={() => setModalIsOpen(false)} />}
       </div>
